@@ -1,0 +1,147 @@
+/* Reset e layout principal */
+body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #0f111a;
+    font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+    flex-direction: column;
+    color: #e0e0e0;
+}
+
+/* Caixa principal */
+.caixa {
+    border: 2px solid #1f2937;
+    border-radius: 20px;
+    width: 60%;
+    max-width: 500px;
+    min-width: 300px;
+    padding: 20px;
+    text-align: center;
+    background: #1a1f2b;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    box-sizing: border-box;
+}
+
+/* Título */
+h1 {
+    margin-bottom: 20px;
+    font-size: 2em;
+    color: #f0f0f5;
+}
+
+/* Container do input + botão */
+.input-container {
+    display: flex;
+    width: 100%;
+}
+
+/* Input */
+input[type="text"] {
+    flex: 1;
+    height: 50px;
+    font-size: 1.2em;
+    border-radius: 10px 0 0 10px;
+    padding-left: 15px;
+    border: 2px solid #334155;
+    border-right: none;
+    box-sizing: border-box;
+    animation: luz-input 2s infinite alternate ease-in-out;
+    background: #0f111a;
+    color: #f0f0f5;
+}
+
+/* Animação de luz moderna */
+@keyframes luz-input {
+    0% { box-shadow: 0 0 5px 2px #3b82f6; }
+    50% { box-shadow: 0 0 15px 5px #2563eb; }
+    100% { box-shadow: 0 0 5px 2px #3b82f6; }
+}
+
+/* Botão enviar */
+.enviar {
+    width: 60px;
+    border: 2px solid #334155;
+    border-left: none;
+    border-radius: 0 10px 10px 0;
+    background: #2563eb;
+    color: #ffffff;
+    font-size: 1.2em;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.3s;
+}
+
+.enviar:hover {
+    background: #1e40af;
+}
+
+.enviar i {
+    display: inline-block;
+    transition: transform 0.3s;
+}
+
+.enviar:hover i {
+    transform: translateX(5px) rotate(15deg);
+}
+
+/* Semáforo animado */
+.semaforo {
+    display: none; /* escondido por padrão */
+    justify-content: center;
+    margin-top: 20px;
+    gap: 15px;
+}
+
+/* Bolinhas */
+.bola {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: #555; /* cor padrão apagada */
+    opacity: 0.3;
+    animation: piscar 1.5s infinite;
+}
+
+/* Cores individuais */
+.bola.vermelho { background: #ef4444; animation-delay: 0s; }
+.bola.amarelo { background: #facc15; animation-delay: 0.3s; }
+.bola.verde { background: #22c55e; animation-delay: 0.6s; }
+
+/* Animação de piscar */
+@keyframes piscar {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+}
+
+/* Mostrar semáforo */
+.semaforo.mostrar {
+    display: flex;
+}
+
+/* Rodapé */
+p {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 1em;
+    color: #94a3b8;
+    margin: 0;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .caixa { width: 80%; padding: 15px; }
+    h1 { font-size: 1.8em; }
+    input[type="text"] { height: 45px; font-size: 1em; }
+    .enviar { width: 50px; font-size: 1em; }
+}
+
+@media (max-width: 480px) {
+    .caixa { width: 90%; padding: 10px; }
+    h1 { font-size: 1.5em; }
+    input[type="text"] { height: 40px; font-size: 0.9em; }
+    .enviar { width: 45px; font-size: 0.9em; }
+    p { font-size: 0.8em; }
+}
