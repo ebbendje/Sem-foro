@@ -14,6 +14,10 @@
                 
                 // Start auto cycle demo
                 startAutoCycle();
+            } else {
+                addOutput('Desconectado: Por favor, insira um ID válido');
+                document.getElementById('status').textContent = 'no';
+                document.getElementById('status').classList.remove('connected');
             }
         }
 
@@ -37,7 +41,6 @@
                 addOutput(`Signal changed to RED on Semaphore #${semaphoreId}`);
             } else if (signal === 'Y') {
                 document.getElementById('light1-yellow').classList.add('active');
-                document.getElementById('light2-yellow').classList.add('active');
                 addOutput(`Signal changed to YELLOW on Semaphore #${semaphoreId}`);
             } else if (signal === 'G') {
                 document.getElementById('light1-green').classList.add('active');
@@ -51,7 +54,7 @@
         }
         function addOutput(message) {
             const output = document.getElementById('output');
-            const time = new Date().toLocaleTimeString();
+            const time = new Date().getHours().toString().padStart(2, '0') + ':' + new Date().getMinutes().toString().padStart(2, '0');
             output.innerHTML += `[${time}] ${message}<br>`;
             output.scrollTop = output.scrollHeight;
         }
@@ -73,5 +76,5 @@
 
         // Initialize with default state
         window.onload = function() {
-            addOutput('System initialized. Please connect to a semaphore.');
+            addOutput('Sistema iniciado.');
         };
