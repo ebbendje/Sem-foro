@@ -1,21 +1,19 @@
  let connected = false;
         let currentSignal = null;
         let semaphoreId = null;
+        let autoCycleInterval;
 
         function connect() {
             const idInput = document.getElementById('id-input');
             semaphoreId = idInput.value;
-            
             if (semaphoreId) {
                 connected = true;
                 document.getElementById('status').textContent = 'yes';
                 document.getElementById('status').classList.add('connected');
-                addOutput(`Connected to Semaphore #${semaphoreId}`);
-                
-                // Start auto cycle demo
+                addOutput(`Conectado`);
                 startAutoCycle();
             } else {
-                addOutput('Desconectado: Por favor, insira um ID válido');
+                addOutput('Error: ID inválido');
                 document.getElementById('status').textContent = 'no';
                 document.getElementById('status').classList.remove('connected');
             }
@@ -23,18 +21,16 @@
 
         function setSignal(signal) {
             if (!connected) {
-                addOutput('Error: Not connected to any semaphore');
+                addOutput('Error: Sem conexão, conecte-se primeiro.');
                 return;
             }
             
             currentSignal = signal;
             
-            // Clear all lights
             document.querySelectorAll('.light').forEach(light => {
                 light.classList.remove('active');
             });
             
-            // Activate appropriate lights
             if (signal === 'R') {
                 document.getElementById('light1-red').classList.add('active');
                 document.getElementById('light2-green').classList.add('active');
@@ -59,7 +55,7 @@
             output.scrollTop = output.scrollHeight;
         }
 
-        let autoCycleInterval;
+        
         
         function startAutoCycle() {
             const signals = ['R', 'Y', 'G'];
@@ -74,7 +70,6 @@
             }, 3000);
         }
 
-        // Initialize with default state
         window.onload = function() {
             addOutput('Sistema iniciado.');
         };
