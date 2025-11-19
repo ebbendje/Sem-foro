@@ -8,8 +8,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🚦 Semaforo</h1>
-        
+        <h1>Semaforo</h1>
         <div class="main-content">
             <div class="semaphore-section">
                 <div class="semaphore-container">
@@ -18,17 +17,8 @@
                         <div class="light yellow" id="light1-yellow"></div>
                         <div class="light green" id="light1-green"></div>
                     </div>
-                    
-                    <div class="connector">
-                        <div class="connector-line"></div>
-                        <div class="connector-line"></div>
-                        <div class="connector-line"></div>
-                        <div class="connector-line"></div>
-                    </div>
-                    
                     <div class="semaphore right">
                         <div class="light red" id="light2-red"></div>
-                        <div class="light yellow" id="light2-yellow"></div>
                         <div class="light green" id="light2-green"></div>
                     </div>
                 </div>
@@ -39,18 +29,17 @@
                     <div class="control-group">
                         <label>ID:</label>
                         <div class="input-group">
-                            <input type="text" id="id-input" value="1" placeholder="Enter ID">
+                            <input type="text" id="id-input" placeholder="Enter ID">
                             <button onclick="connect()">➤</button>
                         </div>
-                    </div>
-                    
+                    </div>      
                     <div class="control-group">
-                        <label>Connected:</label>
+                        <label>Conectado:</label>
                         <div class="status" id="status">no</div>
                     </div>
                     
                     <div class="control-group">
-                        <label>Signal:</label>
+                        <label>Sinal:</label>
                         <div class="signal-buttons">
                             <button class="signal-btn red" onclick="setSignal('R')">R</button>
                             <button class="signal-btn yellow" onclick="setSignal('Y')">Y</button>
@@ -59,7 +48,7 @@
                     </div>
                     
                     <div class="control-group">
-                        <label>Output:</label>
+                        <label>Saida:</label>
                         <div class="output-box" id="output"></div>
                     </div>
                 </div>
@@ -67,14 +56,14 @@
         </div>
         
         <div class="about-section">
-            <h2>About</h2>
+            <h2>Sobre o Projecto</h2>
             <div class="about-content">
                 <div class="about-text">
                     <p>Interactive traffic light control system. Connect to a semaphore using its ID and control the signal lights remotely. The system simulates real-time traffic light management with visual feedback and status monitoring.</p>
                 </div>
                 <div class="about-contact">
-                    <p><strong>Email:</strong> xxxx@email.com</p>
-                    <p><strong>Github:</strong> github.com/xxxxx</p>
+                    <p><strong>Email:</strong> <a href="mailto:ebbendje@gmail.com">ebbendje@gmail.com</a></p>
+                    <p><strong>Github:</strong> <a href="https://github.com/ebbendje/Sem-foro">github.com/ebbendje/Sem-foro</a></p>
                 </div>
             </div>
         </div>
