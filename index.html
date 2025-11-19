@@ -1,32 +1,517 @@
 <!DOCTYPE html>
-<html lang="pt">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Controlador de Semáforo</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="script.js" defer></script>
+    <title>Semaforo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 1200px;
+            width: 100%;
+            padding: 40px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .main-content {
+            display: flex;
+            gap: 40px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .semaphore-section {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .control-section {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .semaphore-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .semaphore {
+            background: linear-gradient(145deg, #d0d0d0, #f0f0f0);
+            border-radius: 20px;
+            padding: 25px 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            position: relative;
+            animation: slideInLeft 0.8s ease;
+        }
+
+        .semaphore.right {
+            animation: slideInRight 0.8s ease;
+        }
+
+        .light {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin: 15px auto;
+            transition: all 0.4s ease;
+            position: relative;
+            border: 4px solid;
+        }
+
+        .light::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            transition: all 0.4s ease;
+        }
+
+        .light.active::before {
+            width: 120%;
+            height: 120%;
+            opacity: 0;
+        }
+
+        .light.red {
+            background: #ffb3ba;
+            border-color: #ff4757;
+        }
+
+        .light.red.active {
+            background: #ff4757;
+            box-shadow: 0 0 30px rgba(255, 71, 87, 0.8);
+        }
+
+        .light.red.active::before {
+            background: rgba(255, 71, 87, 0.6);
+        }
+
+        .light.yellow {
+            background: #fff4b3;
+            border-color: #ffa502;
+        }
+
+        .light.yellow.active {
+            background: #ffa502;
+            box-shadow: 0 0 30px rgba(255, 165, 2, 0.8);
+        }
+
+        .light.yellow.active::before {
+            background: rgba(255, 165, 2, 0.6);
+        }
+
+        .light.green {
+            background: #baffc9;
+            border-color: #2ed573;
+        }
+
+        .light.green.active {
+            background: #2ed573;
+            box-shadow: 0 0 30px rgba(46, 213, 115, 0.8);
+        }
+
+        .light.green.active::before {
+            background: rgba(46, 213, 115, 0.6);
+        }
+
+        .connector {
+            width: 40px;
+            height: 200px;
+            background: linear-gradient(180deg, #888, #aaa);
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 20px 0;
+            align-self: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .connector-line {
+            height: 3px;
+            background: #666;
+            margin: 0 5px;
+        }
+
+        .control-panel {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .control-group {
+            margin-bottom: 25px;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            color: #555;
+            margin-bottom: 10px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        button {
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .status {
+            color: #e74c3c;
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        .status.connected {
+            color: #2ed573;
+        }
+
+        .signal-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .signal-btn {
+            flex: 1;
+            min-width: 70px;
+            padding: 15px;
+            font-size: 1.2em;
+            font-weight: 700;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .signal-btn.red {
+            background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
+        }
+
+        .signal-btn.yellow {
+            background: linear-gradient(135deg, #ffd93d, #ffb140);
+        }
+
+        .signal-btn.green {
+            background: linear-gradient(135deg, #6bcf7f, #51cf66);
+        }
+
+        .output-box {
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            padding: 15px;
+            min-height: 100px;
+            font-family: 'Courier New', monospace;
+            color: #333;
+            overflow-y: auto;
+            max-height: 150px;
+        }
+
+        .about-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            animation: fadeInUp 1s ease;
+        }
+
+        .about-content {
+            display: flex;
+            justify-content: space-between;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .about-text {
+            flex: 2;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .about-contact {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .about-contact p {
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-
-    <h2>Controlador de Semáforos</h2>
-    <div class="caixa">
-        <label  for="ipInput">Digite o IP:</label>
-        <div class="input-container">
-            <input type="text" id="ipInput" name="ip" placeholder="000.000.000.000">
-            <button class="enviar" id="btnEnviar"><i class="fas fa-paper-plane"></i></button>
+    <div class="container">
+        <h1>🚦 Semaforo</h1>
+        
+        <div class="main-content">
+            <div class="semaphore-section">
+                <div class="semaphore-container">
+                    <div class="semaphore">
+                        <div class="light red" id="light1-red"></div>
+                        <div class="light yellow" id="light1-yellow"></div>
+                        <div class="light green" id="light1-green"></div>
+                    </div>
+                    
+                    <div class="connector">
+                        <div class="connector-line"></div>
+                        <div class="connector-line"></div>
+                        <div class="connector-line"></div>
+                        <div class="connector-line"></div>
+                    </div>
+                    
+                    <div class="semaphore right">
+                        <div class="light red" id="light2-red"></div>
+                        <div class="light yellow" id="light2-yellow"></div>
+                        <div class="light green" id="light2-green"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="control-section">
+                <div class="control-panel">
+                    <div class="control-group">
+                        <label>ID:</label>
+                        <div class="input-group">
+                            <input type="text" id="id-input" value="1" placeholder="Enter ID">
+                            <button onclick="connect()">➤</button>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Connected:</label>
+                        <div class="status" id="status">no</div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Signal:</label>
+                        <div class="signal-buttons">
+                            <button class="signal-btn red" onclick="setSignal('R')">R</button>
+                            <button class="signal-btn yellow" onclick="setSignal('Y')">Y</button>
+                            <button class="signal-btn green" onclick="setSignal('G')">G</button>
+                        </div>
+                    </div>
+                    
+                    <div class="control-group">
+                        <label>Output:</label>
+                        <div class="output-box" id="output"></div>
+                    </div>
+                </div>
+            </div>
         </div>
-
-        <!-- Animação de semáforo -->
-        <div class="semaforo" id="semaforo">
-            <div class="bola vermelho"></div>
-            <div class="bola amarelo"></div>
-            <div class="bola verde"></div>
+        
+        <div class="about-section">
+            <h2>About</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Interactive traffic light control system. Connect to a semaphore using its ID and control the signal lights remotely. The system simulates real-time traffic light management with visual feedback and status monitoring.</p>
+                </div>
+                <div class="about-contact">
+                    <p><strong>Email:</strong> xxxx@email.com</p>
+                    <p><strong>Github:</strong> github.com/xxxxx</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <p>By: Ebbendje&reg;</p>
+    <script>
+        let connected = false;
+        let currentSignal = null;
+        let semaphoreId = null;
 
+        function connect() {
+            const idInput = document.getElementById('id-input');
+            semaphoreId = idInput.value;
+            
+            if (semaphoreId) {
+                connected = true;
+                document.getElementById('status').textContent = 'yes';
+                document.getElementById('status').classList.add('connected');
+                addOutput(`Connected to Semaphore #${semaphoreId}`);
+                
+                // Start auto cycle demo
+                startAutoCycle();
+            }
+        }
+
+        function setSignal(signal) {
+            if (!connected) {
+                addOutput('Error: Not connected to any semaphore');
+                return;
+            }
+            
+            currentSignal = signal;
+            
+            // Clear all lights
+            document.querySelectorAll('.light').forEach(light => {
+                light.classList.remove('active');
+            });
+            
+            // Activate appropriate lights
+            if (signal === 'R') {
+                document.getElementById('light1-red').classList.add('active');
+                document.getElementById('light2-green').classList.add('active');
+                addOutput(`Signal changed to RED on Semaphore #${semaphoreId}`);
+            } else if (signal === 'Y') {
+                document.getElementById('light1-yellow').classList.add('active');
+                document.getElementById('light2-yellow').classList.add('active');
+                addOutput(`Signal changed to YELLOW on Semaphore #${semaphoreId}`);
+            } else if (signal === 'G') {
+                document.getElementById('light1-green').classList.add('active');
+                document.getElementById('light2-red').classList.add('active');
+                addOutput(`Signal changed to GREEN on Semaphore #${semaphoreId}`);
+            }
+        }
+
+        function addOutput(message) {
+            const output = document.getElementById('output');
+            const time = new Date().toLocaleTimeString();
+            output.innerHTML += `[${time}] ${message}<br>`;
+            output.scrollTop = output.scrollHeight;
+        }
+
+        let autoCycleInterval;
+        
+        function startAutoCycle() {
+            const signals = ['R', 'Y', 'G'];
+            let index = 0;
+            
+            setSignal(signals[index]);
+            
+            clearInterval(autoCycleInterval);
+            autoCycleInterval = setInterval(() => {
+                index = (index + 1) % signals.length;
+                setSignal(signals[index]);
+            }, 3000);
+        }
+
+        // Initialize with default state
+        window.onload = function() {
+            addOutput('System initialized. Please connect to a semaphore.');
+        };
+    </script>
 </body>
 </html>
