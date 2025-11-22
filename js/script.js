@@ -31,13 +31,6 @@ function setSignal(signal) {
     
     if (signal === 'R') {
         vehicleSignals['R'] = !vehicleSignals['R'];
-        fetch(`http://${semaphoreId}/R`).then(response => {
-            if (!response.ok) {
-                addOutput(`Error: Failed to set RED signal on Semaphore #${semaphoreId}`);
-            }
-        }).catch(error => {
-            addOutput(`Error: ${error.message}`);
-        });
         addOutput(`Signal changed to RED on Semaphore #${semaphoreId}`);
     } else if (signal === 'Y') {
         vehicleSignals['Y'] = !vehicleSignals['Y'];
@@ -53,26 +46,41 @@ function setSignal(signal) {
         addOutput(`Pedestrian Signal changed to GREEN on Semaphore #${semaphoreId}`);
     }
 
-    if (vehicleSignals.R)
+    if (vehicleSignals.R) {
         document.getElementById('light1-red').classList.add('active');
-    else
+        document.getElementById('r-button').classList.add('on');
+    } else {
         document.getElementById('light1-red').classList.remove('active');
-    if (vehicleSignals.Y)
+        document.getElementById('r-button').classList.remove('on');
+    }
+    if (vehicleSignals.Y) {
         document.getElementById('light1-yellow').classList.add('active');
-    else
+        document.getElementById('y-button').classList.add('on');
+    } else {
         document.getElementById('light1-yellow').classList.remove('active');
-    if (vehicleSignals.G)
+        document.getElementById('y-button').classList.remove('on');
+    }
+    if (vehicleSignals.G) {
         document.getElementById('light1-green').classList.add('active');
-    else
+        document.getElementById('g-button').classList.add('on');
+    } else {
         document.getElementById('light1-green').classList.remove('active');
-    if (pedestrianSignals.RP)
+        document.getElementById('g-button').classList.remove('on');
+    }
+    if (pedestrianSignals.RP) {
         document.getElementById('light2-red').classList.add('active');
-    else
+        document.getElementById('rp-button').classList.add('on');
+    } else {
         document.getElementById('light2-red').classList.remove('active');
-    if (pedestrianSignals.GP)
+        document.getElementById('rp-button').classList.remove('on');
+    }
+    if (pedestrianSignals.GP) {
         document.getElementById('light2-green').classList.add('active');
-    else
+        document.getElementById('gp-button').classList.add('on');
+    } else {
         document.getElementById('light2-green').classList.remove('active');
+        document.getElementById('gp-button').classList.remove('on');
+    }
 }
 
 function clearOutput() {
@@ -88,4 +96,4 @@ function addOutput(message) {
 
 window.onload = function() {
     addOutput('Sistema iniciado.');
-};
+}

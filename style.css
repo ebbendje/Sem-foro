@@ -52,8 +52,9 @@
             flex: 1;
             min-width: 300px;
         }
-        .input-group button:hover ~ .input-group button {
-            transform: rotateX(180deg);
+        .input-group button:hover svg  {
+            transition: all 0.2s ease-in-out;
+            transform: rotateZ(30deg);
         }
         .semaphore-container {
             display: flex;
@@ -251,6 +252,10 @@
             font-weight: 700;
             border-radius: 10px;
             transition: all 0.3s ease;
+            opacity: 0.6;
+        }
+        .on {
+            opacity: 1;
         }
 
         .people-signal-buttons button {
