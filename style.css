@@ -251,6 +251,10 @@
             transition: all 0.3s ease;
         }
 
+        .people-signal-buttons button {
+            width: 158px;
+            margin-right: 6px;
+        }
         .signal-btn.red {
             background: linear-gradient(135deg, #ff6b6b, #ee5a6f);
         }
